@@ -41,6 +41,7 @@ import {
   TrendingUpIcon,
 } from "lucide-react"
 import type { AnalysisResult } from "@/lib/analysis-frameworks"
+import { VoiceSummary } from "@/components/voice-summary"
 
 interface AnalysisResultsProps {
   result: AnalysisResult
@@ -113,13 +114,14 @@ export function AnalysisResults({ result, ideaTitle }: AnalysisResultsProps) {
       </div>
 
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-        <TabsList className="grid w-full grid-cols-6">
+        <TabsList className="grid w-full grid-cols-7">
           <TabsTrigger value="overview">Overview</TabsTrigger>
           <TabsTrigger value="frameworks">Frameworks</TabsTrigger>
           <TabsTrigger value="metrics">Metrics</TabsTrigger>
           <TabsTrigger value="business-model">Business Model</TabsTrigger>
           <TabsTrigger value="recommendations">Recommendations</TabsTrigger>
           <TabsTrigger value="industry-news">Industry News</TabsTrigger>
+          <TabsTrigger value="voice-summary">Voice Summary</TabsTrigger>
         </TabsList>
 
         <TabsContent value="overview" className="space-y-6">
@@ -692,6 +694,10 @@ export function AnalysisResults({ result, ideaTitle }: AnalysisResultsProps) {
               )}
             </CardContent>
           </Card>
+        </TabsContent>
+
+        <TabsContent value="voice-summary" className="space-y-6">
+          <VoiceSummary result={result} ideaTitle={ideaTitle} />
         </TabsContent>
       </Tabs>
     </div>

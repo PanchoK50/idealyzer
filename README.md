@@ -8,7 +8,8 @@ A comprehensive platform for evaluating startup ideas using AI-powered analysis 
 - **AI-Powered Frameworks**: SWOT, BCG Matrix, Business Model Canvas, and custom metrics
 - **Interactive Dashboard**: Compare multiple ideas with charts and rankings
 - **Professional Reports**: Generate branded PDF reports with analysis results
-- **Budget Estimation**: Get cost estimates for 100-day prototyping
+- **Voice Summaries**: AI-generated audio briefings with multiple voice options using ElevenLabs
+- **Industry Intelligence**: Real-time market trends, competitive landscape, and relevant news
 
 ## Setup
 
@@ -19,12 +20,14 @@ A comprehensive platform for evaluating startup ideas using AI-powered analysis 
    cp .env.example .env.local
    \`\`\`
 
-2. Add your Anthropic Claude API key to `.env.local`:
+2. Add your API keys to `.env.local`:
    \`\`\`env
    ANTHROPIC_API_KEY=your_anthropic_api_key_here
+   ELEVENLABS_API_KEY=your_elevenlabs_api_key_here
    \`\`\`
 
-   Get your API key from [Anthropic Console](https://console.anthropic.com/)
+   Get your Anthropic key from [Anthropic Console](https://console.anthropic.com/)
+   Get your ElevenLabs key from [ElevenLabs](https://elevenlabs.io/)
 
 ### Installation
 
