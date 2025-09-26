@@ -2,6 +2,8 @@
 
 A comprehensive platform for evaluating startup ideas using AI-powered analysis frameworks including SWOT analysis, BCG Matrix, Business Model Canvas, and more.
 
+🚀 **[Try Idealizer Live](https://idealizer-virid.vercel.app/analyze)** - Analyze your startup ideas now!
+
 ## Features
 
 - **Multi-Input Analysis**: Upload PDFs, images, or enter text descriptions
