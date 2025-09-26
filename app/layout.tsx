@@ -7,7 +7,7 @@ import { Suspense } from "react"
 import "./globals.css"
 
 export const metadata: Metadata = {
-  title: "IdeaLyzer - AI-Powered Startup Idea Analysis",
+  title: "Idealizer - AI-Powered Startup Idea Analysis",
   description: "Evaluate and accelerate your breakthrough ideas with comprehensive AI analysis",
   generator: "v0.app",
 }

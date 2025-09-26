@@ -1,7 +1,7 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import { Lightbulb, Menu, X } from "lucide-react"
+import { Lightbulb, Menu, X, Settings } from "lucide-react"
 import { useState } from "react"
 import Link from "next/link"
 
@@ -14,7 +14,7 @@ export function Navigation() {
         <div className="flex items-center justify-between h-16">
           <Link href="/" className="flex items-center space-x-2">
             <Lightbulb className="h-8 w-8 text-primary" />
-            <span className="text-xl font-bold text-foreground">IdeaLyzer</span>
+            <span className="text-xl font-bold text-foreground">Idealizer</span>
           </Link>
 
           <div className="hidden md:block">
@@ -22,19 +22,19 @@ export function Navigation() {
               <Link href="/#features" className="text-muted-foreground hover:text-foreground transition-colors">
                 Features
               </Link>
-              <Link href="/#frameworks" className="text-muted-foreground hover:text-foreground transition-colors">
-                Frameworks
-              </Link>
               <Link href="/dashboard" className="text-muted-foreground hover:text-foreground transition-colors">
                 Dashboard
               </Link>
-              <a href="#docs" className="text-muted-foreground hover:text-foreground transition-colors">
-                Docs
-              </a>
             </div>
           </div>
 
           <div className="hidden md:flex items-center space-x-4">
+            <Link href="/settings">
+              <Button variant="ghost" size="sm">
+                <Settings className="h-4 w-4 mr-2" />
+                Settings
+              </Button>
+            </Link>
             <Link href="/dashboard">
               <Button variant="ghost" size="sm">
                 Dashboard
@@ -58,16 +58,16 @@ export function Navigation() {
               <Link href="/#features" className="block px-3 py-2 text-muted-foreground hover:text-foreground">
                 Features
               </Link>
-              <Link href="/#frameworks" className="block px-3 py-2 text-muted-foreground hover:text-foreground">
-                Frameworks
-              </Link>
               <Link href="/dashboard" className="block px-3 py-2 text-muted-foreground hover:text-foreground">
                 Dashboard
               </Link>
-              <a href="#docs" className="block px-3 py-2 text-muted-foreground hover:text-foreground">
-                Docs
-              </a>
               <div className="px-3 py-2 space-y-2">
+                <Link href="/settings">
+                  <Button variant="ghost" size="sm" className="w-full justify-start">
+                    <Settings className="h-4 w-4 mr-2" />
+                    Settings
+                  </Button>
+                </Link>
                 <Link href="/dashboard">
                   <Button variant="ghost" size="sm" className="w-full justify-start">
                     Dashboard

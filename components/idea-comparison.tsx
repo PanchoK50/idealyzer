@@ -341,10 +341,10 @@ export function IdeaComparison({ ideas, onAddIdea, onRemoveIdea }: ComparisonPro
                         ))}
                       </TableRow>
                       <TableRow>
-                        <TableCell className="font-medium">Budget Estimate</TableCell>
+                        <TableCell className="font-medium">Industry Keywords</TableCell>
                         {selectedIdeaData.map((idea) => (
                           <TableCell key={idea.id} className="text-center">
-                            <span className="font-semibold">${idea.result.budgetEstimate.total.toLocaleString()}</span>
+                            <span className="font-semibold">{idea.result.industryNews?.industryKeywords?.length || 0} keywords</span>
                           </TableCell>
                         ))}
                       </TableRow>

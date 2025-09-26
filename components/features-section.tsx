@@ -21,8 +21,8 @@ const features = [
   },
   {
     icon: Zap,
-    title: "Rapid Prototyping",
-    description: "100-day budget estimates and actionable roadmaps to accelerate your idea to market.",
+    title: "Industry Intelligence",
+    description: "Real-time market trends, competitive landscape analysis, and industry news to inform your strategy.",
   },
   {
     icon: FileCheck,

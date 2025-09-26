@@ -36,6 +36,9 @@ import {
   CheckCircle,
   XCircle,
   AlertCircle,
+  Newspaper,
+  ExternalLink,
+  TrendingUpIcon,
 } from "lucide-react"
 import type { AnalysisResult } from "@/lib/analysis-frameworks"
 
@@ -55,12 +58,10 @@ export function AnalysisResults({ result, ideaTitle }: AnalysisResultsProps) {
     { name: "Sustainability", value: result.frameworks.metrics.sustainability },
   ]
 
-  const budgetData = [
-    { name: "Development", value: result.budgetEstimate.breakdown.development, color: "#8b5cf6" },
-    { name: "Marketing", value: result.budgetEstimate.breakdown.marketing, color: "#06b6d4" },
-    { name: "Operations", value: result.budgetEstimate.breakdown.operations, color: "#10b981" },
-    { name: "Legal", value: result.budgetEstimate.breakdown.legal, color: "#f59e0b" },
-  ]
+  // Get top 3 most relevant news articles
+  const topNewsArticles = result.industryNews.articles
+    .sort((a, b) => b.relevanceScore - a.relevanceScore)
+    .slice(0, 3)
 
   const getScoreColor = (score: number) => {
     if (score >= 8) return "text-green-500"
@@ -118,7 +119,7 @@ export function AnalysisResults({ result, ideaTitle }: AnalysisResultsProps) {
           <TabsTrigger value="metrics">Metrics</TabsTrigger>
           <TabsTrigger value="business-model">Business Model</TabsTrigger>
           <TabsTrigger value="recommendations">Recommendations</TabsTrigger>
-          <TabsTrigger value="budget">Budget</TabsTrigger>
+          <TabsTrigger value="industry-news">Industry News</TabsTrigger>
         </TabsList>
 
         <TabsContent value="overview" className="space-y-6">
@@ -177,26 +178,39 @@ export function AnalysisResults({ result, ideaTitle }: AnalysisResultsProps) {
               </CardContent>
             </Card>
 
-            {/* Budget Overview */}
+            {/* Industry News Overview */}
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <DollarSign className="h-5 w-5" />
-                  Budget Estimate
+                  <Newspaper className="h-5 w-5" />
+                  Industry Pulse
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="text-center mb-4">
-                  <div className="text-3xl font-bold text-primary">${result.budgetEstimate.total.toLocaleString()}</div>
-                  <div className="text-sm text-muted-foreground">{result.budgetEstimate.timeline} timeline</div>
-                </div>
-                <div className="space-y-2">
-                  {budgetData.map((item) => (
-                    <div key={item.name} className="flex justify-between items-center text-sm">
-                      <span>{item.name}</span>
-                      <span className="font-semibold">${item.value.toLocaleString()}</span>
+                <div className="space-y-3">
+                  {topNewsArticles.length > 0 ? (
+                    topNewsArticles.map((article, index) => (
+                      <div key={index} className="p-2 rounded-lg border border-border hover:bg-muted/50 transition-colors">
+                        <div className="flex items-start justify-between gap-2">
+                          <div className="flex-1 min-w-0">
+                            <h4 className="text-sm font-medium line-clamp-1">{article.title}</h4>
+                            <p className="text-xs text-muted-foreground mt-1 line-clamp-2">{article.snippet}</p>
+                            <div className="flex items-center gap-2 mt-1">
+                              <span className="text-xs text-muted-foreground">{article.source}</span>
+                              <span className="text-xs text-muted-foreground">•</span>
+                              <span className="text-xs text-muted-foreground">{new Date(article.date).toLocaleDateString()}</span>
+                            </div>
+                          </div>
+                          <ExternalLink className="h-3 w-3 text-muted-foreground flex-shrink-0" />
+                        </div>
+                      </div>
+                    ))
+                  ) : (
+                    <div className="text-center py-4 text-muted-foreground">
+                      <Newspaper className="h-8 w-8 mx-auto mb-2 opacity-50" />
+                      <p className="text-sm">No industry news available</p>
                     </div>
-                  ))}
+                  )}
                 </div>
               </CardContent>
             </Card>
@@ -575,70 +589,109 @@ export function AnalysisResults({ result, ideaTitle }: AnalysisResultsProps) {
           </Card>
         </TabsContent>
 
-        <TabsContent value="budget" className="space-y-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {/* Budget Breakdown Chart */}
+        <TabsContent value="industry-news" className="space-y-6">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            {/* Industry Keywords */}
             <Card>
               <CardHeader>
-                <CardTitle>Budget Distribution</CardTitle>
-                <CardDescription>100-day prototype budget breakdown</CardDescription>
+                <CardTitle className="flex items-center gap-2">
+                  <Target className="h-5 w-5" />
+                  Key Industry Terms
+                </CardTitle>
+                <CardDescription>Relevant keywords for your market</CardDescription>
               </CardHeader>
               <CardContent>
-                <ResponsiveContainer width="100%" height={300}>
-                  <PieChart>
-                    <Pie
-                      data={budgetData}
-                      cx="50%"
-                      cy="50%"
-                      labelLine={false}
-                      label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
-                      outerRadius={80}
-                      fill="#8884d8"
-                      dataKey="value"
-                    >
-                      {budgetData.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={entry.color} />
-                      ))}
-                    </Pie>
-                    <Tooltip formatter={(value) => `$${value.toLocaleString()}`} />
-                  </PieChart>
-                </ResponsiveContainer>
+                <div className="flex flex-wrap gap-2">
+                  {result.industryNews.industryKeywords.map((keyword, index) => (
+                    <Badge key={index} variant="secondary" className="text-xs">
+                      {keyword}
+                    </Badge>
+                  ))}
+                </div>
               </CardContent>
             </Card>
 
-            {/* Budget Details */}
+            {/* Market Trends */}
             <Card>
               <CardHeader>
-                <CardTitle>Budget Details</CardTitle>
-                <CardDescription>Detailed cost breakdown for {result.budgetEstimate.timeline}</CardDescription>
+                <CardTitle className="flex items-center gap-2">
+                  <TrendingUpIcon className="h-5 w-5" />
+                  Market Trends
+                </CardTitle>
+                <CardDescription>Current industry dynamics</CardDescription>
               </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="text-center p-4 bg-primary/10 rounded-lg">
-                  <div className="text-2xl font-bold text-primary">${result.budgetEstimate.total.toLocaleString()}</div>
-                  <div className="text-sm text-muted-foreground">Total Budget</div>
-                </div>
-
-                <Separator />
-
-                <div className="space-y-3">
-                  {budgetData.map((item) => (
-                    <div key={item.name} className="flex justify-between items-center p-3 rounded-lg border">
-                      <div className="flex items-center gap-3">
-                        <div className="w-4 h-4 rounded-full" style={{ backgroundColor: item.color }} />
-                        <span className="font-medium">{item.name}</span>
-                      </div>
-                      <div className="text-right">
-                        <div className="font-semibold">${item.value.toLocaleString()}</div>
-                        <div className="text-xs text-muted-foreground">
-                          {((item.value / result.budgetEstimate.total) * 100).toFixed(0)}%
-                        </div>
-                      </div>
+              <CardContent>
+                <div className="space-y-2">
+                  {result.industryNews.marketTrends.map((trend, index) => (
+                    <div key={index} className="flex items-start gap-2">
+                      <div className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0" />
+                      <span className="text-sm">{trend}</span>
                     </div>
                   ))}
                 </div>
               </CardContent>
             </Card>
+
+            {/* Competitive Landscape */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Star className="h-5 w-5" />
+                  Competitive Landscape
+                </CardTitle>
+                <CardDescription>Market positioning insights</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm leading-relaxed">{result.industryNews.competitiveLandscape}</p>
+              </CardContent>
+            </Card>
           </div>
+
+          {/* News Articles */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Newspaper className="h-5 w-5" />
+                Recent Industry News
+              </CardTitle>
+              <CardDescription>Latest developments in your industry</CardDescription>
+            </CardHeader>
+            <CardContent>
+              {result.industryNews.articles.length > 0 ? (
+                <div className="space-y-4">
+                  {result.industryNews.articles.map((article, index) => (
+                    <div key={index} className="p-4 rounded-lg border border-border hover:bg-muted/50 transition-colors">
+                      <div className="flex items-start justify-between gap-4">
+                        <div className="flex-1">
+                          <h3 className="font-medium mb-2">{article.title}</h3>
+                          <p className="text-sm text-muted-foreground mb-3">{article.snippet}</p>
+                          <div className="flex items-center gap-4 text-xs text-muted-foreground">
+                            <span>{article.source}</span>
+                            <span>•</span>
+                            <span>{new Date(article.date).toLocaleDateString()}</span>
+                            <span>•</span>
+                            <span className="flex items-center gap-1">
+                              <div className="w-2 h-2 bg-primary rounded-full" />
+                              {Math.round(article.relevanceScore * 100)}% relevant
+                            </span>
+                          </div>
+                        </div>
+                        <Button variant="ghost" size="sm" className="flex-shrink-0">
+                          <ExternalLink className="h-4 w-4" />
+                        </Button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="text-center py-8 text-muted-foreground">
+                  <Newspaper className="h-12 w-12 mx-auto mb-4 opacity-50" />
+                  <h3 className="font-medium mb-2">No Industry News Available</h3>
+                  <p className="text-sm">Industry news data could not be loaded at this time.</p>
+                </div>
+              )}
+            </CardContent>
+          </Card>
         </TabsContent>
       </Tabs>
     </div>

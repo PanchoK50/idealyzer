@@ -1,4 +1,4 @@
-# IdeaLyzer - AI-Powered Startup Idea Analysis Platform
+# Idealizer - AI-Powered Startup Idea Analysis Platform
 
 A comprehensive platform for evaluating startup ideas using AI-powered analysis frameworks including SWOT analysis, BCG Matrix, Business Model Canvas, and more.
 
@@ -19,12 +19,12 @@ A comprehensive platform for evaluating startup ideas using AI-powered analysis 
    cp .env.example .env.local
    \`\`\`
 
-2. Add your OpenAI API key to `.env.local`:
+2. Add your Anthropic Claude API key to `.env.local`:
    \`\`\`env
-   OPENAI_API_KEY=your_openai_api_key_here
+   ANTHROPIC_API_KEY=your_anthropic_api_key_here
    \`\`\`
 
-   Get your API key from [OpenAI Platform](https://platform.openai.com/api-keys)
+   Get your API key from [Anthropic Console](https://console.anthropic.com/)
 
 ### Installation
 
@@ -59,6 +59,6 @@ A comprehensive platform for evaluating startup ideas using AI-powered analysis 
 ## Technology Stack
 
 - **Frontend**: Next.js 14, React, TypeScript, Tailwind CSS
-- **AI**: Vercel AI SDK with OpenAI GPT-4
+- **AI**: Vercel AI SDK with Anthropic Claude Sonnet
 - **Charts**: Recharts for data visualization
 - **UI Components**: shadcn/ui component library

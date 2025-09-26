@@ -186,24 +186,41 @@ Additional File Content: ${fileContent}${researchContext}
           10,
       ) / 10
 
-    // Generate budget estimate
-    const budgetEstimate = {
-      total: Math.round(50000 + Math.random() * 150000), // Simplified calculation
-      breakdown: {
-        development: 0.4,
-        marketing: 0.3,
-        operations: 0.2,
-        legal: 0.1,
-      },
-      timeline: "100 days",
-    }
+    // Fetch industry news data
+    let industryNews
+    try {
+      const newsResponse = await fetch(`${request.url.replace('/api/analyze', '/api/industry-news')}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          idea: ideaContext,
+          title: title,
+          description: description,
+          keyFeatures: keyFeatures,
+        }),
+      })
 
-    // Calculate actual budget breakdown
-    const budgetBreakdown = {
-      development: Math.round(budgetEstimate.total * budgetEstimate.breakdown.development),
-      marketing: Math.round(budgetEstimate.total * budgetEstimate.breakdown.marketing),
-      operations: Math.round(budgetEstimate.total * budgetEstimate.breakdown.operations),
-      legal: Math.round(budgetEstimate.total * budgetEstimate.breakdown.legal),
+      if (newsResponse.ok) {
+        industryNews = await newsResponse.json()
+      } else {
+        // Fallback if news API fails
+        industryNews = {
+          articles: [],
+          industryKeywords: [],
+          marketTrends: [],
+          competitiveLandscape: "Industry news temporarily unavailable.",
+        }
+      }
+    } catch (error) {
+      console.error("Failed to fetch industry news:", error)
+      industryNews = {
+        articles: [],
+        industryKeywords: [],
+        marketTrends: [],
+        competitiveLandscape: "Industry news temporarily unavailable.",
+      }
     }
 
     const result: AnalysisResult = {
@@ -217,10 +234,7 @@ Additional File Content: ${fileContent}${researchContext}
         businessModel: businessModel,
         metrics: metrics,
       },
-      budgetEstimate: {
-        ...budgetEstimate,
-        breakdown: budgetBreakdown,
-      },
+      industryNews,
       qualityScore,
       recommendations,
     }

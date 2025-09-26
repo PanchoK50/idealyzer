@@ -9,7 +9,7 @@ export interface AnalysisResult {
     businessModel: BusinessModelCanvas
     metrics: AnalysisMetrics
   }
-  budgetEstimate: BudgetEstimate
+  industryNews: IndustryNewsData
   qualityScore: number
   recommendations: {
     startupNames: string[]
@@ -69,6 +69,22 @@ export interface BrandWheel {
   vision: string
   values: string[]
   personality: string[]
+}
+
+export interface NewsArticle {
+  title: string
+  url: string
+  snippet: string
+  source: string
+  date: string
+  relevanceScore: number
+}
+
+export interface IndustryNewsData {
+  articles: NewsArticle[]
+  industryKeywords: string[]
+  marketTrends: string[]
+  competitiveLandscape: string
 }
 
 export const ANALYSIS_PROMPTS = {

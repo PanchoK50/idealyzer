@@ -167,8 +167,8 @@ export default function DashboardPage() {
                       </span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-muted-foreground">Budget:</span>
-                      <span className="font-semibold">${(idea.result.budgetEstimate.total / 1000).toFixed(0)}k</span>
+                      <span className="text-muted-foreground">Keywords:</span>
+                      <span className="font-semibold">{idea.result.industryNews?.industryKeywords?.length || 0}</span>
                     </div>
                   </div>
 
